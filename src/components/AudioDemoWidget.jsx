@@ -117,7 +117,7 @@ export default function AudioDemoWidget({ setCursorLabel, setCursorHovered }) {
           <div className="p-4 sm:p-6 rounded-2xl bg-black/80 border border-white/10 space-y-2 sm:space-y-3 relative">
             <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400">
               <span className="text-[#D4AF37] uppercase font-bold">{presets[activePreset].name} MODE</span>
-              <span>VOICE ARCHIVE #JV-084</span>
+              <span>VOICE ARCHIVE #RS-084</span>
             </div>
             <p className="text-base sm:text-xl font-editorial italic text-white leading-relaxed">
               {presets[activePreset].quote}

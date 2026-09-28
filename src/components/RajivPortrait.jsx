@@ -1,6 +1,59 @@
 import React from 'react';
 
-export default function RajivPortrait({ className = "w-full h-full", aspect = "square" }) {
+export default function RajivPortrait({ className = "w-full h-full", compact = false }) {
+  if (compact) {
+    return (
+      <div className={`relative overflow-hidden rounded-xl border border-[#D4AF37]/50 shadow-md ${className}`}>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050A18] via-[#0D1836] to-[#0A1226] flex items-center justify-between px-3 sm:px-4 py-2">
+          
+          {/* Executive Emblem & Silhouette */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-[#D4AF37] p-0.5 shadow-[0_0_15px_rgba(212,175,55,0.3)] bg-black/60 shrink-0">
+              <div className="w-full h-full rounded-full bg-gradient-to-b from-[#1A2E5A] to-[#0A1226] flex items-center justify-center overflow-hidden">
+                <svg viewBox="0 0 100 100" className="w-full h-full text-[#D4AF37]">
+                  <defs>
+                    <linearGradient id="rajivGradCompact" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#F3E5AB" />
+                      <stop offset="50%" stopColor="#D4AF37" />
+                      <stop offset="100%" stopColor="#8B6B1B" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(212,175,55,0.2)" strokeWidth="1" strokeDasharray="2 2" />
+                  <path d="M 50 20 C 40 20, 36 28, 36 38 C 36 48, 41 54, 50 54 C 59 54, 64 48, 64 38 C 64 28, 60 20, 50 20 Z" fill="url(#rajivGradCompact)" opacity="0.9" />
+                  <path d="M 20 88 C 20 72, 32 64, 50 64 C 68 64, 80 72, 80 88 Z" fill="url(#rajivGradCompact)" opacity="0.8" />
+                  <polygon points="50,65 44,88 56,88" fill="#0A1226" />
+                  <polygon points="50,66 48,78 52,78" fill="#D4AF37" />
+                </svg>
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs sm:text-sm font-serif-title font-bold text-white tracking-wider block">
+                RAJIV SINGH SIDHU
+              </span>
+              <span className="text-[9px] sm:text-[10px] font-mono text-[#D4AF37] uppercase tracking-wider block font-semibold">
+                Master Language Trainer & Rhetoric Fellow
+              </span>
+              <span className="text-[9px] font-sans-body text-neutral-300 block">
+                Oxford Fellow • 15+ Years Mentoring Global C-Suites
+              </span>
+            </div>
+          </div>
+
+          <div className="hidden sm:block text-right">
+            <span className="text-[9px] font-mono text-[#D4AF37] px-2 py-0.5 rounded border border-[#D4AF37]/30 uppercase font-bold bg-black/40">
+              VERIFIED ATELIER
+            </span>
+          </div>
+
+        </div>
+        {/* Gold Corner Accents */}
+        <div className="absolute top-1 left-1 w-2 h-2 border-t border-l border-[#D4AF37]" />
+        <div className="absolute top-1 right-1 w-2 h-2 border-t border-r border-[#D4AF37]" />
+      </div>
+    );
+  }
+
   return (
     <div className={`relative overflow-hidden rounded-2xl border border-[#D4AF37]/40 shadow-2xl ${className}`}>
       {/* Background Studio Lighting & Atmosphere */}
@@ -13,13 +66,13 @@ export default function RajivPortrait({ className = "w-full h-full", aspect = "s
         <div className="relative w-full h-full flex flex-col items-center justify-center p-6 text-center">
           
           {/* Executive Emblem & Portrait Frame */}
-          <div className="relative z-10 w-36 h-36 sm:w-44 sm:h-44 rounded-full border-2 border-[#D4AF37] p-1.5 shadow-[0_0_35px_rgba(212,175,55,0.3)] mb-4 bg-black/40 backdrop-blur-sm">
+          <div className="relative z-10 w-32 h-32 sm:w-44 sm:h-44 rounded-full border-2 border-[#D4AF37] p-1.5 shadow-[0_0_35px_rgba(212,175,55,0.3)] mb-3 sm:mb-4 bg-black/40 backdrop-blur-sm">
             <div className="w-full h-full rounded-full bg-gradient-to-b from-[#1A2E5A] to-[#0A1226] flex items-center justify-center overflow-hidden relative border border-[#D4AF37]/30">
               
               {/* Executive Silhouette / Portrait Visual */}
               <svg viewBox="0 0 100 100" className="w-full h-full text-[#D4AF37]">
                 <defs>
-                  <linearGradient id="rajivGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="rajivGradFull" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#F3E5AB" />
                     <stop offset="50%" stopColor="#D4AF37" />
                     <stop offset="100%" stopColor="#8B6B1B" />
@@ -30,8 +83,8 @@ export default function RajivPortrait({ className = "w-full h-full", aspect = "s
                 <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(212,175,55,0.15)" strokeWidth="0.5" strokeDasharray="2 2" />
 
                 {/* Head & Shoulders Silhouette */}
-                <path d="M 50 20 C 40 20, 36 28, 36 38 C 36 48, 41 54, 50 54 C 59 54, 64 48, 64 38 C 64 28, 60 20, 50 20 Z" fill="url(#rajivGrad)" opacity="0.9" />
-                <path d="M 20 88 C 20 72, 32 64, 50 64 C 68 64, 80 72, 80 88 Z" fill="url(#rajivGrad)" opacity="0.8" />
+                <path d="M 50 20 C 40 20, 36 28, 36 38 C 36 48, 41 54, 50 54 C 59 54, 64 48, 64 38 C 64 28, 60 20, 50 20 Z" fill="url(#rajivGradFull)" opacity="0.9" />
+                <path d="M 20 88 C 20 72, 32 64, 50 64 C 68 64, 80 72, 80 88 Z" fill="url(#rajivGradFull)" opacity="0.8" />
                 
                 {/* Suit Lapel & Tie Detail */}
                 <polygon points="50,65 44,88 56,88" fill="#0A1226" />

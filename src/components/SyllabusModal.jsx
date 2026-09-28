@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, FileText, CheckCircle2, Award, Clock } from 'lucide-react';
+import { X, Download, FileText, Award, Clock } from 'lucide-react';
 
 export default function SyllabusModal({ isOpen, onClose, courseTitle, syllabusData }) {
   if (!isOpen) return null;
@@ -23,14 +23,14 @@ export default function SyllabusModal({ isOpen, onClose, courseTitle, syllabusDa
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 20 }}
           transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-          className="relative z-10 w-full max-w-3xl bg-[#0F0F0F] border border-[#D4AF37]/40 rounded-3xl p-8 sm:p-10 shadow-[0_0_50px_rgba(212,175,55,0.15)] my-8 max-h-[90vh] overflow-y-auto"
+          className="relative z-10 w-full max-w-3xl bg-[#0F0F0F] border border-[#D4AF37]/40 rounded-2xl sm:rounded-3xl p-5 sm:p-10 shadow-[0_0_50px_rgba(212,175,55,0.15)] my-3 sm:my-8 max-h-[90vh] overflow-y-auto"
         >
           {/* Close */}
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 p-2 text-neutral-400 hover:text-white hover:bg-white/5 rounded-full transition-colors"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-neutral-400 hover:text-white hover:bg-white/5 rounded-full transition-colors z-20"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
           {/* Header */}

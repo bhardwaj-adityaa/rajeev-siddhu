@@ -4,7 +4,7 @@ import { Sparkles, CheckCircle2, Send, Quote, Shield } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import RajivPortrait from '../components/RajivPortrait';
 
-export default function MasterPage({ onOpenBooking, setCursorLabel, setCursorHovered }) {
+export default function MasterPage({ onOpenBooking: _onOpenBooking, setCursorLabel, setCursorHovered }) {
   const testimonials = [
     {
       quote: "Rajiv Singh Sidhu didn't just refine my pronunciation—he reshaped how I command the boardroom during global M&A negotiations.",

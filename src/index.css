@@ -16,12 +16,23 @@
     background-color: #000000;
     color: #f3f3f3;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    scroll-behavior: auto !important; /* Lenis handles smooth scrolling natively */
+    scroll-behavior: auto !important; /* Lenis handles smooth scrolling */
     cursor: default;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     max-width: 100vw;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
+
+  /* Mobile Safe Area Padding Helpers */
+  :root {
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
   }
 
   /* Lenis smooth scrolling helper styles */
@@ -74,6 +85,19 @@
     radial-gradient(circle at 50% 50%, rgba(30, 30, 35, 0.4) 0%, transparent 70%);
   filter: blur(80px);
   animation: meshFloat 25s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Mobile GPU optimization: reduce heavy blur and stop infinite transforms on mobile */
+@media (max-width: 768px) {
+  .mesh-gradient-bg {
+    filter: blur(40px);
+    animation: none;
+    background: 
+      radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 70% 80%, rgba(170, 130, 10, 0.06) 0%, transparent 60%),
+      #000000;
+  }
 }
 
 @keyframes meshFloat {
@@ -186,21 +210,41 @@
   box-shadow: 0 4px 15px -3px rgba(212, 175, 55, 0.3);
 }
 
-/* 3D HARDCOVER BOOK TRANSFORM UTILITIES - ISOLATED TO BOOK COMPONENT */
-.perspective-\[2400px\] {
-  perspective: 2400px;
+/* 3D HARDCOVER BOOK TRANSFORM UTILITIES - ULTRA SMOOTH & MOBILE-COMPATIBLE */
+.book-stage {
+  perspective: 1800px;
+  -webkit-perspective: 1800px;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.book-object {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.book-cover-wrapper {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  will-change: transform;
+  transform-origin: left center;
+  -webkit-transform-origin: left center;
 }
 
 .rotate-y-0 {
-  transform: rotateY(0deg);
+  transform: rotateY(0deg) translate3d(0, 0, 0);
+  -webkit-transform: rotateY(0deg) translate3d(0, 0, 0);
 }
 
 .rotate-y-180 {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translate3d(0, 0, 0);
+  -webkit-transform: rotateY(180deg) translate3d(0, 0, 0);
 }
 
 .rotate-y-\[-180deg\] {
-  transform: rotateY(-180deg);
+  transform: rotateY(-180deg) translate3d(0, 0, 0);
+  -webkit-transform: rotateY(-180deg) translate3d(0, 0, 0);
 }
 
 .backface-hidden {

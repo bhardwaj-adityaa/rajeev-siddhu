@@ -1,8 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Award, Mail, ArrowUpRight, Globe, Lock } from 'lucide-react';
+import { Shield, Award, Mail, ArrowUpRight, Globe } from 'lucide-react';
 
-export default function Footer({ setActivePage, onOpenBooking, setCursorLabel, setCursorHovered }) {
+export default function Footer({ setActivePage, onOpenBooking: _onOpenBooking, setCursorLabel, setCursorHovered }) {
   const handleMouseEnter = (label) => {
     setCursorHovered(true);
     setCursorLabel(label);
@@ -55,7 +54,7 @@ export default function Footer({ setActivePage, onOpenBooking, setCursorLabel, s
             <h4 className="text-xs sm:text-sm font-mono tracking-widest text-[#D4AF37] uppercase font-bold">
               NAVIGATION
             </h4>
-            <ul className="space-y-3.5 font-sans-body text-base text-neutral-300 font-medium">
+            <ul className="space-y-3 font-sans-body text-sm sm:text-base text-neutral-300 font-medium">
               <li>
                 <button
                   onClick={() => setActivePage('prologue')}
@@ -63,40 +62,51 @@ export default function Footer({ setActivePage, onOpenBooking, setCursorLabel, s
                   onMouseLeave={handleMouseLeave}
                   className="hover:text-white transition-colors flex items-center gap-1.5 group"
                 >
-                  <span>00. Executive Charter (Book)</span>
+                  <span>00. The Book (Prologue)</span>
                   <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]" />
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setActivePage('home')}
+                  onClick={() => setActivePage('about')}
                   onMouseEnter={() => handleMouseEnter('VIEW')}
                   onMouseLeave={handleMouseLeave}
                   className="hover:text-white transition-colors flex items-center gap-1.5 group"
                 >
-                  <span>01. Home & Ethos</span>
+                  <span>01. About Rajiv</span>
                   <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]" />
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setActivePage('expertise')}
+                  onClick={() => setActivePage('courses')}
                   onMouseEnter={() => handleMouseEnter('VIEW')}
                   onMouseLeave={handleMouseLeave}
                   className="hover:text-white transition-colors flex items-center gap-1.5 group"
                 >
-                  <span>02. Curricula & Courses</span>
+                  <span>02. Speaking Programs</span>
                   <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]" />
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setActivePage('master')}
+                  onClick={() => setActivePage('reviews')}
                   onMouseEnter={() => handleMouseEnter('VIEW')}
                   onMouseLeave={handleMouseLeave}
                   className="hover:text-white transition-colors flex items-center gap-1.5 group"
                 >
-                  <span>03. About Rajiv & Connect</span>
+                  <span>03. Student Reviews</span>
+                  <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]" />
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setActivePage('contact')}
+                  onMouseEnter={() => handleMouseEnter('VIEW')}
+                  onMouseLeave={handleMouseLeave}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 group"
+                >
+                  <span>04. Book a Trial Lesson</span>
                   <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]" />
                 </button>
               </li>
@@ -106,24 +116,24 @@ export default function Footer({ setActivePage, onOpenBooking, setCursorLabel, s
           {/* Locations & Contact */}
           <div className="md:col-span-4 space-y-4">
             <h4 className="text-xs sm:text-sm font-mono tracking-widest text-[#D4AF37] uppercase font-bold">
-              ATELIER LOCATIONS
+              LESSON FORMATS & CONTACT
             </h4>
             <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm font-mono text-neutral-300">
               <div>
-                <span className="text-white font-bold block">MAYFAIR, LONDON</span>
-                <span>28 Grosvenor Street</span>
+                <span className="text-white font-bold block">ONLINE LIVE</span>
+                <span>Zoom & Google Meet (Global)</span>
               </div>
               <div>
-                <span className="text-white font-bold block">ZÜRICH</span>
-                <span>Bahnhofstrasse 42</span>
+                <span className="text-white font-bold block">IN-PERSON</span>
+                <span>Mayfair, London & Zürich</span>
               </div>
               <div>
-                <span className="text-white font-bold block">NEW YORK</span>
-                <span>5th Ave Executive Suite</span>
+                <span className="text-white font-bold block">SESSION TYPES</span>
+                <span>Private 1-on-1 & Small Groups</span>
               </div>
               <div>
-                <span className="text-white font-bold block">SINGAPORE</span>
-                <span>Marina Bay Financial</span>
+                <span className="text-white font-bold block">AVAILABILITY</span>
+                <span>Weekdays & Weekend Slots</span>
               </div>
             </div>
 

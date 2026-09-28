@@ -32,11 +32,27 @@ export default function Navbar({ activePage, setActivePage, onOpenBooking, setCu
     };
   }, []);
 
+  // Prevent background scroll when mobile menu drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [mobileMenuOpen]);
+
   const navItems = [
-    { id: 'prologue', label: '00 / PROLOGUE' },
-    { id: 'home', label: '01 / HOME' },
-    { id: 'expertise', label: '02 / EXPERTISE' },
-    { id: 'master', label: '03 / THE MASTER' },
+    { id: 'prologue', label: '00 / BOOK' },
+    { id: 'about', label: '01 / ABOUT' },
+    { id: 'courses', label: '02 / COURSES' },
+    { id: 'reviews', label: '03 / REVIEWS' },
+    { id: 'contact', label: '04 / CONTACT' },
   ];
 
   const handleMouseEnter = (label) => {
@@ -57,8 +73,11 @@ export default function Navbar({ activePage, setActivePage, onOpenBooking, setCu
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? 'py-2.5 sm:py-3 bg-black/95 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.85)]'
-          : 'py-3.5 sm:py-5 bg-black/85 backdrop-blur-md border-b border-white/5 shadow-md'
+          : 'py-3 sm:py-5 bg-black/85 backdrop-blur-md border-b border-white/5 shadow-md'
       }`}
+      style={{
+        paddingTop: `calc(${scrolled ? '0.6rem' : '0.85rem'} + env(safe-area-inset-top, 0px))`,
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
         
@@ -159,7 +178,7 @@ export default function Navbar({ activePage, setActivePage, onOpenBooking, setCu
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black/95 border-b border-white/10 backdrop-blur-2xl px-5 py-6"
+            className="md:hidden bg-black/95 border-b border-white/10 backdrop-blur-2xl px-5 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] max-h-[calc(100vh-5rem)] overflow-y-auto"
           >
             <div className="flex flex-col gap-3">
               {navItems.map((item) => (

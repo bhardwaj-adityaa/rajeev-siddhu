@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Award, Shield, ChevronRight, Globe, Lock, Play } from 'lucide-react';
+import { Sparkles, Award, Shield, ChevronRight } from 'lucide-react';
 import AudioDemoWidget from '../components/AudioDemoWidget';
 
 export default function HomePage({ setActivePage, onOpenBooking, setCursorLabel, setCursorHovered }) {

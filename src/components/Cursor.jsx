@@ -9,8 +9,9 @@ export default function Cursor({ cursorLabel, cursorHovered }) {
   const rafId = useRef(null);
 
   useEffect(() => {
-    // Only enable follower ring on desktop fine-pointer devices
-    if (window.matchMedia && !window.matchMedia('(pointer: fine)').matches) {
+    // Only enable follower ring on desktop fine-pointer devices (not mobile / touch)
+    const isTouch = 'ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+    if (isTouch || (window.matchMedia && !window.matchMedia('(pointer: fine)').matches)) {
       return;
     }
 

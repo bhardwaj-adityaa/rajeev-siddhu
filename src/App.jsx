@@ -8,15 +8,16 @@ import Cursor from './components/Cursor';
 import BookingModal from './components/BookingModal';
 import BookOpening from './components/BookOpening';
 
-// Pages
-import HomePage from './pages/HomePage';
-import ExpertisePage from './pages/ExpertisePage';
-import MasterPage from './pages/MasterPage';
+// Sections
+import AboutSection from './components/AboutSection';
+import CoursesSection from './components/CoursesSection';
+import ReviewsSection from './components/ReviewsSection';
+import ContactSection from './components/ContactSection';
 
 export default function App() {
   const [activePage, setActivePage] = useState('prologue');
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
-  const [defaultBookingTrack, setDefaultBookingTrack] = useState('Spoken English Mastery');
+  const [defaultBookingTrack, setDefaultBookingTrack] = useState('Spoken English & Daily Fluency');
   
   // Custom Cursor States
   const [cursorLabel, setCursorLabel] = useState('');
@@ -27,16 +28,17 @@ export default function App() {
 
   const lenisRef = useRef(null);
 
-  // Initialize Lenis 144Hz-grade responsive smooth scrolling
+  // Initialize Lenis 144Hz-grade responsive smooth scrolling (touch-optimized for iOS/Android)
   useEffect(() => {
+    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0));
     const lenis = new Lenis({
-      duration: 0.8,
+      duration: isTouch ? 0.7 : 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.0,
+      touchMultiplier: isTouch ? 0 : 1.0, // Retain silky native 120Hz momentum scrolling on mobile touch
     });
 
     lenisRef.current = lenis;
@@ -56,7 +58,7 @@ export default function App() {
 
   // IntersectionObserver to auto-update active page tab on scroll
   useEffect(() => {
-    const sectionIds = ['prologue', 'home', 'expertise', 'master'];
+    const sectionIds = ['prologue', 'about', 'courses', 'reviews', 'contact'];
     const observerOptions = {
       root: null,
       rootMargin: '-20% 0px -40% 0px',
@@ -68,7 +70,7 @@ export default function App() {
         if (entry.isIntersecting) {
           const id = entry.target.id;
           setActivePage(id);
-          if (id === 'expertise') {
+          if (id === 'courses') {
             setBgShiftClass('mesh-gradient-bg mesh-gradient-shifted');
           } else {
             setBgShiftClass('mesh-gradient-bg');
@@ -92,7 +94,7 @@ export default function App() {
     setActivePage(pageId);
     
     // Background tint adjustment
-    if (pageId === 'expertise') {
+    if (pageId === 'courses') {
       setBgShiftClass('mesh-gradient-bg mesh-gradient-shifted');
     } else {
       setBgShiftClass('mesh-gradient-bg');
@@ -101,14 +103,18 @@ export default function App() {
     const targetElement = document.getElementById(pageId);
     if (targetElement) {
       if (lenisRef.current) {
-        lenisRef.current.scrollTo(targetElement, { offset: -95 });
+        if (pageId === 'prologue') {
+          lenisRef.current.scrollTo(0);
+        } else {
+          lenisRef.current.scrollTo(targetElement, { offset: -85 });
+        }
       } else {
         targetElement.scrollIntoView({ behavior: 'smooth' });
       }
     }
   };
 
-  const handleOpenBooking = (track = 'Spoken English Mastery') => {
+  const handleOpenBooking = (track = 'Spoken English & Daily Fluency') => {
     if (typeof track === 'string') {
       setDefaultBookingTrack(track);
     }
@@ -116,7 +122,10 @@ export default function App() {
   };
 
   const handleCourseSelectFromBook = (courseType) => {
-    handlePageChange('expertise');
+    if (courseType) {
+      setDefaultBookingTrack(courseType);
+    }
+    handlePageChange('courses');
   };
 
   return (
@@ -135,48 +144,51 @@ export default function App() {
       <Navbar
         activePage={activePage}
         setActivePage={handlePageChange}
-        onOpenBooking={() => handleOpenBooking('Spoken English Mastery')}
+        onOpenBooking={() => handleOpenBooking('Spoken English & Daily Fluency')}
         setCursorLabel={setCursorLabel}
         setCursorHovered={setCursorHovered}
       />
 
       {/* 5. Main Continuous Multi-Section Layout */}
-      <main className="relative z-10 pt-28 sm:pt-36 lg:pt-40 space-y-16 sm:space-y-28">
+      <main className="relative z-10 pt-16 sm:pt-20 lg:pt-22 space-y-16 sm:space-y-28">
         
         {/* SECTION 00: PROLOGUE (3D EXECUTIVE CHARTER BOOK) */}
-        <section id="prologue" className="relative scroll-mt-28 sm:scroll-mt-36 min-h-[85vh] flex flex-col justify-start sm:justify-center">
+        <section id="prologue" className="relative scroll-mt-20 min-h-[calc(100vh-4.5rem)] flex flex-col justify-center items-center">
           <BookOpening
-            onEnterAtelier={() => handlePageChange('home')}
+            onEnterAtelier={() => handlePageChange('about')}
             onSelectCourse={handleCourseSelectFromBook}
             setCursorLabel={setCursorLabel}
             setCursorHovered={setCursorHovered}
           />
         </section>
 
-        {/* SECTION 01: HOME & ETHOS */}
-        <section id="home" className="relative scroll-mt-28 sm:scroll-mt-36">
-          <HomePage
-            setActivePage={handlePageChange}
-            onOpenBooking={() => handleOpenBooking('Spoken English Mastery')}
+        {/* SECTION 01: ABOUT RAJIV */}
+        <section id="about" className="relative scroll-mt-28 sm:scroll-mt-36">
+          <AboutSection
+            onBookClass={() => handleOpenBooking('Spoken English & Daily Fluency')}
             setCursorLabel={setCursorLabel}
             setCursorHovered={setCursorHovered}
           />
         </section>
 
-        {/* SECTION 02: EXPERTISE & CURRICULA */}
-        <section id="expertise" className="relative scroll-mt-28 sm:scroll-mt-36">
-          <ExpertisePage
-            onOpenBooking={(track) => handleOpenBooking(track)}
+        {/* SECTION 02: COURSES & PROGRAMS */}
+        <section id="courses" className="relative scroll-mt-28 sm:scroll-mt-36">
+          <CoursesSection
+            onSelectCourse={(track) => handleOpenBooking(track)}
             setCursorLabel={setCursorLabel}
             setCursorHovered={setCursorHovered}
-            onBackgroundShift={(shift) => setBgShiftClass(`mesh-gradient-bg ${shift}`)}
           />
         </section>
 
-        {/* SECTION 03: THE MASTER & CONNECT */}
-        <section id="master" className="relative scroll-mt-28 sm:scroll-mt-36">
-          <MasterPage
-            onOpenBooking={() => handleOpenBooking('Spoken English Mastery')}
+        {/* SECTION 03: STUDENT REVIEWS */}
+        <section id="reviews" className="relative scroll-mt-28 sm:scroll-mt-36">
+          <ReviewsSection />
+        </section>
+
+        {/* SECTION 04: CONTACT & BOOKING */}
+        <section id="contact" className="relative scroll-mt-28 sm:scroll-mt-36">
+          <ContactSection
+            selectedTrack={defaultBookingTrack}
             setCursorLabel={setCursorLabel}
             setCursorHovered={setCursorHovered}
           />
