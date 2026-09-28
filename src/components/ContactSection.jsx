@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, CheckCircle2, Sparkles } from 'lucide-react';
+import { Send, CheckCircle2, Sparkles, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { submitStudentInquiry } from '../services/contactService';
 
 export default function ContactSection({ selectedTrack = '', setCursorLabel, setCursorHovered }) {
   const [formData, setFormData] = useState({
@@ -13,13 +14,17 @@ export default function ContactSection({ selectedTrack = '', setCursorLabel, set
 
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [submissionResult, setSubmissionResult] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMsg('');
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await submitStudentInquiry(formData);
+      setSubmissionResult(res);
       setSubmitted(true);
       try {
         confetti({
@@ -31,7 +36,12 @@ export default function ContactSection({ selectedTrack = '', setCursorLabel, set
       } catch (err) {
         console.log(err);
       }
-    }, 800);
+    } catch (err) {
+      console.error(err);
+      setErrorMsg(err.message || 'Something went wrong submitting your request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleMouseEnter = (label) => {
@@ -131,6 +141,14 @@ export default function ContactSection({ selectedTrack = '', setCursorLabel, set
               />
             </div>
 
+            {/* Error Message if any */}
+            {errorMsg && (
+              <div className="p-3.5 rounded-xl bg-red-500/15 border border-red-500/30 text-xs sm:text-sm text-red-300 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
+
             {/* Submit button */}
             <button
               type="submit"
@@ -140,7 +158,7 @@ export default function ContactSection({ selectedTrack = '', setCursorLabel, set
               className="btn-liquid w-full py-4 rounded-xl bg-[#D4AF37] text-black font-mono font-bold text-xs sm:text-sm tracking-widest uppercase transition-all shadow-[0_0_25px_rgba(212,175,55,0.4)] flex items-center justify-center gap-2 hover:bg-[#e6ca65]"
             >
               {isSubmitting ? (
-                <span>SUBMITTING REQUEST...</span>
+                <span>SENDING INQUIRY TO INBOX...</span>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
@@ -164,9 +182,24 @@ export default function ContactSection({ selectedTrack = '', setCursorLabel, set
             <p className="text-sm font-sans-body text-neutral-300 max-w-md mx-auto leading-relaxed">
               Thank you, <strong className="text-white">{formData.name}</strong>. Rajiv Singh Sidhu’s office will contact you on <strong className="text-[#D4AF37]">{formData.contact}</strong> within 24 hours to schedule your free speaking assessment.
             </p>
+
+            {submissionResult?.demoMode && (
+              <div className="mt-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200/90 text-left max-w-md mx-auto space-y-2">
+                <p className="font-semibold text-amber-300 flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span>How to receive this in your real email inbox:</span>
+                </p>
+                <p className="text-[11px] text-neutral-300 leading-relaxed">
+                  Enter your free Web3Forms Access Key in <code className="bg-black/80 px-1.5 py-0.5 rounded text-amber-300 font-mono text-[10px]">src/config/contactConfig.js</code>. You can generate a free key in 15 seconds at <a href="https://web3forms.com" target="_blank" rel="noreferrer" className="text-[#D4AF37] underline hover:text-white">web3forms.com</a>.
+                </p>
+              </div>
+            )}
+
             <button
               onClick={() => {
                 setSubmitted(false);
+                setSubmissionResult(null);
+                setErrorMsg('');
                 setFormData({ name: '', contact: '', track: 'Spoken English & Daily Fluency', message: '' });
               }}
               className="mt-4 px-6 py-2 rounded-full border border-white/20 text-xs font-mono text-neutral-400 hover:text-white transition-colors"

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Sparkles, CheckCircle2, User, Mail, Building, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { submitStudentInquiry } from '../services/contactService';
 
 export default function BookingModal({ isOpen, onClose, defaultTrack = 'Spoken English Mastery' }) {
   const [track, setTrack] = useState(defaultTrack);
@@ -15,20 +16,31 @@ export default function BookingModal({ isOpen, onClose, defaultTrack = 'Spoken E
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const tracks = [
-    'Spoken English Mastery',
-    'Corporate Business English',
-    'Advanced Exam Prep (IELTS/TOEFL)',
-    'Custom Diplomatic / Boardroom Rhetoric',
+    'Spoken English & Daily Fluency',
+    'Business & Workplace English',
+    'IELTS & Interview Speaking Prep',
+    'Personalized 1-on-1 Mentorship',
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMsg('');
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitStudentInquiry({
+        name: formData.name,
+        email: formData.email,
+        track: track,
+        organization: formData.organization,
+        role: formData.role,
+        preferredDate: formData.preferredDate,
+        message: formData.notes,
+      });
+
       setSubmitted(true);
 
       try {
@@ -41,7 +53,12 @@ export default function BookingModal({ isOpen, onClose, defaultTrack = 'Spoken E
       } catch (err) {
         console.log(err);
       }
-    }, 1200);
+    } catch (err) {
+      console.error(err);
+      setErrorMsg(err.message || 'Submission failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetAndClose = () => {
@@ -198,6 +215,12 @@ export default function BookingModal({ isOpen, onClose, defaultTrack = 'Spoken E
                   <ShieldCheck className="w-5 h-5 text-[#D4AF37]" />
                   <span>Strict NDA applies. Your details are never shared with third parties.</span>
                 </div>
+
+                {errorMsg && (
+                  <div className="p-3.5 rounded-xl bg-red-500/15 border border-red-500/30 text-xs sm:text-sm text-red-300">
+                    {errorMsg}
+                  </div>
+                )}
 
                 <button
                   type="submit"

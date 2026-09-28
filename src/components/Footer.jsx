@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Award, Mail, ArrowUpRight, Globe } from 'lucide-react';
+import { Shield, Award, Mail, ArrowUpRight, Globe, Heart } from 'lucide-react';
 
 export default function Footer({ setActivePage, onOpenBooking: _onOpenBooking, setCursorLabel, setCursorHovered }) {
   const handleMouseEnter = (label) => {
@@ -163,6 +163,15 @@ export default function Footer({ setActivePage, onOpenBooking: _onOpenBooking, s
               <span>GLOBAL PRACTICE</span>
             </span>
           </div>
+        </div>
+
+        {/* Tribute From Student */}
+        <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-center">
+          <p className="text-xs sm:text-sm font-sans-body text-neutral-400 flex items-center gap-2 font-medium tracking-wide">
+            <span>Made with</span>
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline animate-pulse" />
+            <span>by a student of <strong className="text-[#D4AF37] font-semibold">Rajeev Sir</strong></span>
+          </p>
         </div>
       </div>
     </footer>

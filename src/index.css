@@ -210,18 +210,23 @@
   box-shadow: 0 4px 15px -3px rgba(212, 175, 55, 0.3);
 }
 
-/* 3D HARDCOVER BOOK TRANSFORM UTILITIES - ULTRA SMOOTH & MOBILE-COMPATIBLE */
+/* 3D HARDCOVER BOOK TRANSFORM UTILITIES - ULTRA SMOOTH & MOBILE/TABLET COMPATIBLE */
 .book-stage {
-  perspective: 1800px;
-  -webkit-perspective: 1800px;
+  perspective: 1400px;
+  -webkit-perspective: 1400px;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+  touch-action: pan-y;
+  -webkit-font-smoothing: antialiased;
 }
 
 .book-object {
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   will-change: transform;
+  -webkit-font-smoothing: antialiased;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .book-cover-wrapper {
@@ -230,6 +235,15 @@
   will-change: transform;
   transform-origin: left center;
   -webkit-transform-origin: left center;
+  -webkit-font-smoothing: antialiased;
+}
+
+.book-cover-front,
+.book-cover-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  outline: 1px solid transparent;
 }
 
 .rotate-y-0 {
